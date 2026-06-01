@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/camera-settings-advisor.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,33 +9,32 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ── Reset & Base ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   :root {
-    --bg:        #0d0f0e;
-    --bg2:       #141614;
-    --bg3:       #1c1f1c;
-    --bg4:       #242724;
-    --border:    rgba(255,255,255,0.07);
-    --border2:   rgba(255,255,255,0.13);
-    --text:      #e8ece8;
-    --muted:     #7a887a;
-    --accent:    #b8f06a;
-    --accent2:   #7ad45a;
-    --accent3:   #d4fb9c;
-    --warn:      #f0c060;
-    --info:      #60b8f0;
-    --serif:     'DM Serif Display', Georgia, serif;
-    --sans:      'DM Sans', system-ui, sans-serif;
-    --mono:      'DM Mono', 'Courier New', monospace;
-    --r:         10px;
-    --r-lg:      16px;
-    --r-xl:      22px;
+    --bg:      #0d0f0e;
+    --bg2:     #141614;
+    --bg3:     #1c1f1c;
+    --bg4:     #242724;
+    --border:  rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text:    #e8ece8;
+    --muted:   #7a887a;
+    --accent:  #b8f06a;
+    --accent2: #7ad45a;
+    --accent3: #d4fb9c;
+    --warn:    #f0c060;
+    --info:    #60b8f0;
+    --serif:   'DM Serif Display', Georgia, serif;
+    --sans:    'DM Sans', system-ui, sans-serif;
+    --mono:    'DM Mono', 'Courier New', monospace;
+    --r:       10px;
+    --r-lg:    16px;
+    --r-xl:    22px;
   }
- 
+
   html { scroll-behavior: smooth; }
- 
+
   body {
     font-family: var(--sans);
     background: var(--bg);
@@ -44,8 +44,7 @@
     line-height: 1.6;
     padding-bottom: 4rem;
   }
- 
-  /* ── Noise texture overlay ── */
+
   body::before {
     content: '';
     position: fixed;
@@ -55,16 +54,15 @@
     z-index: 0;
     opacity: .4;
   }
- 
-  /* ── Header ── */
+
   .header {
     padding: 3rem 1.5rem 2rem;
-    max-width: 780px;
+    max-width: 820px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
   }
- 
+
   .header-eyebrow {
     font-family: var(--mono);
     font-size: 11px;
@@ -76,7 +74,7 @@
     align-items: center;
     gap: 8px;
   }
- 
+
   .header-eyebrow::before {
     content: '';
     display: inline-block;
@@ -84,7 +82,7 @@
     height: 1px;
     background: var(--accent);
   }
- 
+
   h1 {
     font-family: var(--serif);
     font-size: clamp(2rem, 6vw, 3.2rem);
@@ -93,29 +91,24 @@
     color: var(--text);
     margin-bottom: .6rem;
   }
- 
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
- 
+
+  h1 em { font-style: italic; color: var(--accent); }
+
   .header-sub {
     color: var(--muted);
     font-size: 14px;
     font-weight: 300;
-    max-width: 440px;
+    max-width: 460px;
   }
- 
-  /* ── Main Layout ── */
+
   .main {
-    max-width: 780px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 0 1.5rem;
     position: relative;
     z-index: 1;
   }
- 
-  /* ── Section label ── */
+
   .section-label {
     font-family: var(--mono);
     font-size: 10px;
@@ -124,8 +117,7 @@
     color: var(--muted);
     margin-bottom: .75rem;
   }
- 
-  /* ── Cards ── */
+
   .card {
     background: var(--bg2);
     border: 0.5px solid var(--border);
@@ -134,16 +126,41 @@
     margin-bottom: 1rem;
     transition: border-color .2s;
   }
- 
   .card:hover { border-color: var(--border2); }
- 
-  /* ── Style Tags ── */
-  .tags {
+
+  /* ── Toggle (Mirrorless / DSLR) ── */
+  .toggle-group {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: 30px;
+    padding: 3px;
+    gap: 2px;
+    width: fit-content;
   }
- 
+
+  .toggle-btn {
+    padding: 6px 18px;
+    border-radius: 26px;
+    font-size: 13px;
+    font-family: var(--sans);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    transition: all .18s;
+    user-select: none;
+  }
+
+  .toggle-btn.active {
+    background: rgba(184,240,106,.13);
+    color: var(--accent3);
+    box-shadow: 0 0 0 0.5px rgba(184,240,106,.45);
+  }
+
+  /* ── Tags ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
   .tag {
     display: flex;
     align-items: center;
@@ -160,26 +177,22 @@
     user-select: none;
     white-space: nowrap;
   }
- 
   .tag svg { width: 14px; height: 14px; flex-shrink: 0; }
- 
-  .tag:hover {
-    border-color: rgba(184,240,106,.35);
-    color: var(--text);
-    background: var(--bg4);
+  .tag:hover { border-color: rgba(184,240,106,.35); color: var(--text); background: var(--bg4); }
+  .tag.active { background: rgba(184,240,106,.12); border-color: rgba(184,240,106,.45); color: var(--accent3); }
+
+  /* ── Grid layouts ── */
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+  @media (max-width: 600px) {
+    .row2, .row3 { grid-template-columns: 1fr; }
   }
- 
-  .tag.active {
-    background: rgba(184,240,106,.12);
-    border-color: rgba(184,240,106,.45);
-    color: var(--accent3);
+  @media (min-width: 601px) and (max-width: 760px) {
+    .row3 { grid-template-columns: 1fr 1fr; }
   }
- 
-  /* ── Select inputs ── */
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
- 
-  @media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
- 
+
+  /* ── Selects ── */
   select {
     width: 100%;
     padding: 9px 12px;
@@ -198,22 +211,51 @@
     padding-right: 30px;
     transition: border-color .18s;
   }
- 
   select:focus, select:hover { border-color: rgba(184,240,106,.4); }
- 
   optgroup { color: var(--muted); font-size: 11px; }
- 
-  /* ── Output Section ── */
+
+  /* ── Aperture slider ── */
+  .aperture-control { margin-top: .75rem; }
+
+  .aperture-track {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .ap-btn {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    cursor: pointer;
+    border: 0.5px solid var(--border2);
+    background: var(--bg3);
+    color: var(--muted);
+    transition: all .15s;
+    user-select: none;
+  }
+  .ap-btn:hover { border-color: rgba(184,240,106,.35); color: var(--text); }
+  .ap-btn.active { background: rgba(184,240,106,.12); border-color: rgba(184,240,106,.5); color: var(--accent3); }
+
+  .ap-note {
+    margin-top: .5rem;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    min-height: 18px;
+  }
+
+  /* ── Output ── */
   #output { margin-top: .5rem; }
- 
-  /* ── Metric Grid ── */
+
   .metric-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
     margin-bottom: 1.25rem;
   }
- 
+
   .metric {
     background: var(--bg3);
     border-radius: var(--r-lg);
@@ -222,39 +264,31 @@
     transition: border-color .2s, transform .2s;
     animation: fadeUp .35s ease both;
   }
- 
-  .metric:hover {
-    border-color: var(--border2);
-    transform: translateY(-1px);
-  }
- 
+  .metric:hover { border-color: var(--border2); transform: translateY(-1px); }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
   }
- 
-  .metric:nth-child(1) { animation-delay: .05s; }
-  .metric:nth-child(2) { animation-delay: .10s; }
-  .metric:nth-child(3) { animation-delay: .15s; }
-  .metric:nth-child(4) { animation-delay: .20s; }
- 
+
+  .metric:nth-child(1) { animation-delay: .04s; }
+  .metric:nth-child(2) { animation-delay: .08s; }
+  .metric:nth-child(3) { animation-delay: .12s; }
+  .metric:nth-child(4) { animation-delay: .16s; }
+
   .metric-icon {
-    width: 28px;
-    height: 28px;
+    width: 28px; height: 28px;
     border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     margin-bottom: .6rem;
   }
- 
   .metric-icon svg { width: 15px; height: 15px; }
- 
-  .icon-shutter  { background: rgba(96,184,240,.15); color: var(--info); }
+
+  .icon-shutter  { background: rgba(96,184,240,.15);  color: var(--info); }
   .icon-aperture { background: rgba(184,240,106,.12); color: var(--accent); }
   .icon-iso      { background: rgba(240,192,96,.12);  color: var(--warn); }
   .icon-focus    { background: rgba(122,212,90,.12);  color: var(--accent2); }
- 
+
   .metric-label {
     font-size: 10px;
     font-family: var(--mono);
@@ -263,7 +297,7 @@
     color: var(--muted);
     margin-bottom: 4px;
   }
- 
+
   .metric-val {
     font-family: var(--mono);
     font-size: 19px;
@@ -271,21 +305,13 @@
     color: var(--text);
     line-height: 1.2;
   }
- 
-  .metric-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-  }
- 
-  /* ── Pills row ── */
-  .pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-top: .25rem;
-  }
- 
+
+  .metric-val.adjusted { color: var(--warn); }
+
+  .metric-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: .25rem; }
+
   .pill {
     font-size: 12px;
     font-family: var(--mono);
@@ -295,10 +321,10 @@
     color: var(--muted);
     background: var(--bg3);
   }
- 
   .pill.highlight { color: var(--accent3); border-color: rgba(184,240,106,.3); background: rgba(184,240,106,.06); }
- 
-  /* ── Warning banner ── */
+  .pill.warn      { color: var(--warn);    border-color: rgba(240,192,96,.3);  background: rgba(240,192,96,.06); }
+  .pill.info      { color: var(--info);    border-color: rgba(96,184,240,.3);  background: rgba(96,184,240,.06); }
+
   .warn-banner {
     display: flex;
     align-items: flex-start;
@@ -312,10 +338,23 @@
     margin-bottom: 1rem;
     animation: fadeUp .3s ease both;
   }
- 
   .warn-banner svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
- 
-  /* ── Gear notes ── */
+
+  .info-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(96,184,240,.07);
+    border: 0.5px solid rgba(96,184,240,.25);
+    border-radius: var(--r);
+    font-size: 13px;
+    color: var(--info);
+    margin-bottom: 1rem;
+    animation: fadeUp .3s ease both;
+  }
+  .info-banner svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+
   .gear-row {
     display: flex;
     gap: 8px;
@@ -326,27 +365,22 @@
     border-bottom: 0.5px solid var(--border);
     animation: fadeUp .35s ease both;
   }
- 
   .gear-row:last-child { border-bottom: none; }
- 
   .gear-row strong { color: var(--text); font-weight: 500; }
- 
+
   .gear-label {
     font-family: var(--mono);
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: .08em;
     color: var(--accent2);
-    min-width: 52px;
+    min-width: 58px;
     padding-top: 2px;
+    flex-shrink: 0;
   }
- 
-  /* ── Tips ── */
-  .tips-list {
-    list-style: none;
-    counter-reset: tips;
-  }
- 
+
+  .tips-list { list-style: none; counter-reset: tips; }
+
   .tips-list li {
     counter-increment: tips;
     display: flex;
@@ -358,14 +392,13 @@
     border-bottom: 0.5px solid var(--border);
     animation: fadeUp .35s ease both;
   }
- 
   .tips-list li:last-child { border-bottom: none; }
   .tips-list li:nth-child(1) { animation-delay: .05s; }
   .tips-list li:nth-child(2) { animation-delay: .10s; }
   .tips-list li:nth-child(3) { animation-delay: .15s; }
   .tips-list li:nth-child(4) { animation-delay: .20s; }
   .tips-list li:nth-child(5) { animation-delay: .25s; }
- 
+
   .tips-list li::before {
     content: counter(tips, decimal-leading-zero);
     font-family: var(--mono);
@@ -375,10 +408,9 @@
     padding-top: 3px;
     min-width: 22px;
   }
- 
-  /* ── Footer ── */
+
   .footer {
-    max-width: 780px;
+    max-width: 820px;
     margin: 2rem auto 0;
     padding: 0 1.5rem;
     text-align: center;
@@ -388,101 +420,91 @@
     z-index: 1;
     font-family: var(--mono);
   }
- 
-  /* ── Divider ── */
-  .divider {
-    height: 0.5px;
-    background: var(--border);
-    margin: 1.5rem 0;
-  }
- 
-  /* ── Scrollbar ── */
+
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
 </style>
 </head>
 <body>
- 
-<!-- Header -->
+
 <header class="header">
   <div class="header-eyebrow">Camera Settings Advisor</div>
   <h1>Find your <em>perfect</em><br>exposure.</h1>
-  <p class="header-sub">Select your photography style, gear, and lighting — get tailored settings and expert tips instantly.</p>
+  <p class="header-sub">Choose your style, camera type, brand, gear, and lighting — get tailored settings and expert tips instantly.</p>
 </header>
- 
+
 <main class="main">
- 
-  <!-- Photography Style -->
+
+  <!-- 01 Photography Style -->
   <div class="card">
     <div class="section-label">01 — Photography style</div>
     <div class="tags" id="styleTags">
       <div class="tag active" data-style="portrait">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        Portrait
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Portrait
       </div>
       <div class="tag" data-style="landscape">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20l4-8 4 5 3-3 4 6"/><path d="M3 20h18"/></svg>
-        Landscape
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20l4-8 4 5 3-3 4 6"/><path d="M3 20h18"/></svg>Landscape
       </div>
       <div class="tag" data-style="sports">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2"/><path d="M10 7l-2 5h8l-2-5"/><path d="M8 12l-1 8"/><path d="M16 12l1 8"/><path d="M7 16h10"/></svg>
-        Sports
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="4" r="2"/><path d="M10 7l-2 5h8l-2-5"/><path d="M8 12l-1 8"/><path d="M16 12l1 8"/><path d="M7 16h10"/></svg>Sports
       </div>
       <div class="tag" data-style="macro">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>
-        Macro
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/><path d="M8 11h6"/><path d="M11 8v6"/></svg>Macro
       </div>
       <div class="tag" data-style="astro">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg>
-        Astro
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/><path d="M20 3v4"/><path d="M22 5h-4"/></svg>Astro
       </div>
       <div class="tag" data-style="street">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="10" width="5" height="10"/><rect x="9.5" y="6" width="5" height="14"/><rect x="16" y="3" width="5" height="17"/><path d="M3 20h18"/></svg>
-        Street
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="10" width="5" height="10"/><rect x="9.5" y="6" width="5" height="14"/><rect x="16" y="3" width="5" height="17"/><path d="M3 20h18"/></svg>Street
       </div>
       <div class="tag" data-style="wildlife">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2 .336-3.5 2.352-3.5 4.18v.748c0 .615.22 1.2.61 1.626L7 13v4"/><path d="M14 5.172C14 3.782 15.577 2.679 17.5 3c2 .336 3.5 2.352 3.5 4.18v.748c0 .615-.22 1.2-.61 1.626L17 13v4"/><path d="M10 13h4v4"/><path d="M9 17h6"/></svg>
-        Wildlife
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2 .336-3.5 2.352-3.5 4.18v.748c0 .615.22 1.2.61 1.626L7 13v4"/><path d="M14 5.172C14 3.782 15.577 2.679 17.5 3c2 .336 3.5 2.352 3.5 4.18v.748c0 .615-.22 1.2-.61 1.626L17 13v4"/><path d="M10 13h4v4"/><path d="M9 17h6"/></svg>Wildlife
       </div>
       <div class="tag" data-style="architecture">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M8 3v18"/><path d="M16 3v18"/><path d="M3 8h18"/><path d="M3 16h18"/></svg>
-        Architecture
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M8 3v18"/><path d="M16 3v18"/><path d="M3 8h18"/><path d="M3 16h18"/></svg>Architecture
       </div>
     </div>
   </div>
- 
-  <!-- Camera & Lens -->
-  <div class="row">
+
+  <!-- 02 Camera Type + Brand -->
+  <div class="card">
+    <div class="section-label">02 — Camera type &amp; brand</div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start">
+      <!-- Mirrorless / DSLR toggle -->
+      <div>
+        <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.45rem">Type</div>
+        <div class="toggle-group" id="typeToggle">
+          <button class="toggle-btn active" data-type="mirrorless">Mirrorless</button>
+          <button class="toggle-btn" data-type="dslr">DSLR</button>
+        </div>
+      </div>
+      <!-- Brand -->
+      <div style="flex:1;min-width:160px">
+        <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.45rem">Brand</div>
+        <div class="toggle-group" id="brandToggle">
+          <button class="toggle-btn active" data-brand="sony">Sony</button>
+          <button class="toggle-btn" data-brand="nikon">Nikon</button>
+          <button class="toggle-btn" data-brand="canon">Canon</button>
+          <button class="toggle-btn" data-brand="other">Other</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Camera Body + Lens -->
+  <div class="row2">
     <div class="card">
-      <div class="section-label">02 — Camera body</div>
-      <select id="cameraSelect">
-        <optgroup label="Full Frame">
-          <option value="ff_pro">Sony A7R V / Canon R5 (FF Pro)</option>
-          <option value="ff_mid">Sony A7 IV / Nikon Z6 III (FF Mid)</option>
-          <option value="ff_entry">Sony A7C / Canon RP (FF Entry)</option>
-        </optgroup>
-        <optgroup label="APS-C">
-          <option value="apsc_pro">Fujifilm X-T5 / Nikon Z50 (APS-C Pro)</option>
-          <option value="apsc_mid">Sony A6700 / Canon R7 (APS-C Mid)</option>
-          <option value="apsc_entry">Fujifilm X-S20 / Canon M50 (APS-C Entry)</option>
-        </optgroup>
-        <optgroup label="Micro Four Thirds">
-          <option value="mft">OM-1 / GH7 / G9 II (MFT)</option>
-        </optgroup>
-        <optgroup label="Other">
-          <option value="film">Film camera (35mm)</option>
-          <option value="phone">Smartphone camera</option>
-        </optgroup>
-      </select>
+      <div class="section-label">03 — Camera body</div>
+      <select id="cameraSelect"></select>
     </div>
     <div class="card">
-      <div class="section-label">03 — Lens / focal length</div>
+      <div class="section-label">04 — Lens / focal length</div>
       <select id="lensSelect">
         <option value="ultra_wide">Ultra-wide (10–24mm)</option>
         <option value="wide">Wide angle (24–35mm)</option>
         <option value="normal" selected>Normal / walk-around (35–55mm)</option>
-        <option value="portrait_prime">Portrait prime (50–85mm f/1.2–1.8)</option>
+        <option value="portrait_prime">Portrait prime (50–85mm)</option>
         <option value="short_tele">Short telephoto (85–135mm)</option>
         <option value="tele">Telephoto (200–400mm)</option>
         <option value="super_tele">Super telephoto (400mm+)</option>
@@ -491,251 +513,352 @@
       </select>
     </div>
   </div>
- 
-  <!-- Lighting -->
+
+  <!-- 05 Max Aperture -->
   <div class="card">
-    <div class="section-label">04 — Lighting condition</div>
+    <div class="section-label">05 — Maximum aperture of your lens</div>
+    <div class="aperture-track" id="apTrack">
+      <div class="ap-btn" data-ap="1.0">f/1.0</div>
+      <div class="ap-btn" data-ap="1.2">f/1.2</div>
+      <div class="ap-btn active" data-ap="1.4">f/1.4</div>
+      <div class="ap-btn" data-ap="1.8">f/1.8</div>
+      <div class="ap-btn" data-ap="2.0">f/2.0</div>
+      <div class="ap-btn" data-ap="2.8">f/2.8</div>
+      <div class="ap-btn" data-ap="3.5">f/3.5</div>
+      <div class="ap-btn" data-ap="4.0">f/4.0</div>
+      <div class="ap-btn" data-ap="5.6">f/5.6</div>
+      <div class="ap-btn" data-ap="6.3">f/6.3</div>
+    </div>
+    <div class="ap-note" id="apNote"></div>
+  </div>
+
+  <!-- 06 Lighting -->
+  <div class="card">
+    <div class="section-label">06 — Lighting condition</div>
     <div class="tags" id="lightTags">
       <div class="tag active" data-light="bright_sun">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        Bright sun
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Bright sun
       </div>
       <div class="tag" data-light="golden_hour">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 10V2"/><path d="M4.93 12.93l-1.41-1.41"/><path d="M2 20h20"/><path d="M4 20a8 8 0 0 1 16 0"/><path d="M19.07 12.93l1.41-1.41"/></svg>
-        Golden hour
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 10V2"/><path d="M4.93 12.93l-1.41-1.41"/><path d="M2 20h20"/><path d="M4 20a8 8 0 0 1 16 0"/><path d="M19.07 12.93l1.41-1.41"/></svg>Golden hour
       </div>
       <div class="tag" data-light="overcast">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>
-        Overcast
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>Overcast
       </div>
       <div class="tag" data-light="indoors">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/></svg>
-        Indoors
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12L12 4l9 8"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-9"/></svg>Indoors
       </div>
       <div class="tag" data-light="low_light">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>
-        Low light / dusk
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg>Low light / dusk
       </div>
       <div class="tag" data-light="night">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Night
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Night
       </div>
     </div>
   </div>
- 
+
   <!-- Output -->
   <div id="output"></div>
- 
+
 </main>
- 
+
 <footer class="footer">
   <p>Settings are starting points — adapt to your specific scene and creative intent.</p>
 </footer>
- 
+
 <script>
-/* ── Data ── */
-const DATA = {
-  portrait: {
-    bright_sun:  { shutter:"1/500s",  aperture:"f/2.8", iso:"100–200",   focus:"Single AF — eye detect",   ev:"+0.3 to +0.7" },
-    golden_hour: { shutter:"1/250s",  aperture:"f/2.0", iso:"200–400",   focus:"Single AF — eye detect",   ev:"+0.7" },
-    overcast:    { shutter:"1/250s",  aperture:"f/1.8", iso:"400",       focus:"Single AF — eye detect",   ev:"+0.5" },
-    indoors:     { shutter:"1/125s",  aperture:"f/1.8", iso:"800–1600",  focus:"Single AF — face detect",  ev:"0" },
-    low_light:   { shutter:"1/100s",  aperture:"f/1.4", iso:"1600–3200", focus:"Single AF — face detect",  ev:"+1.0" },
-    night:       { shutter:"1/60s",   aperture:"f/1.4", iso:"3200–6400", focus:"Manual or AF-assist",      ev:"+1.0" },
-    tips: [
-      "Wide aperture (f/1.4–f/2.8) blurs the background and isolates your subject beautifully.",
-      "Eye-detection AF locks focus precisely on the catchlights — always enable it.",
-      "A shutter speed of ≥ 1/focal-length avoids motion blur from hand shake.",
-      "Expose to the right (slightly bright) to retain skin-tone detail in post.",
-      "Use a reflector or fill flash outdoors to soften harsh shadows on the face."
-    ]
+/* ═══════════════════════════════════════════════
+   CAMERA DATABASE
+═══════════════════════════════════════════════ */
+const CAMERAS = {
+  mirrorless: {
+    sony: {
+      pro:   { label:"Sony A1 / A7R V / A9 III",   key:"ff_pro",   note:"61MP or 50MP full-frame, up to 120fps, excellent ISO to 12800+" },
+      mid:   { label:"Sony A7 IV / A7C II",          key:"ff_mid",   note:"33MP full-frame, excellent all-rounder up to ISO 6400 cleanly" },
+      entry: { label:"Sony A7C / ZV-E1",             key:"ff_entry", note:"Full-frame entry; great video; clean to ISO 3200" },
+      apsc_pro:   { label:"Sony A6700",              key:"apsc_pro", note:"26MP APS-C, AI subject recognition, 1.5× crop factor" },
+      apsc_entry: { label:"Sony ZV-E10 / A6100",     key:"apsc_entry",note:"APS-C entry; ideal for learning; best ≤ ISO 1600" },
+    },
+    nikon: {
+      pro:   { label:"Nikon Z9 / Z8",               key:"ff_pro",   note:"45MP stacked sensor, 20fps, superb dynamic range" },
+      mid:   { label:"Nikon Z6 III / Z5 II",         key:"ff_mid",   note:"Partial-stacked FF; excellent video + stills balance" },
+      entry: { label:"Nikon Zf / Z30",               key:"ff_entry", note:"Retro-styled full-frame; Z30 is APS-C vlogging body" },
+      apsc_pro:   { label:"Nikon Z50 II / Zfc",      key:"apsc_pro", note:"DX (APS-C) format; 1.5× crop; great value mirrorless" },
+      apsc_entry: { label:"Nikon Z30",               key:"apsc_entry",note:"Compact APS-C; no EVF; best for video and social" },
+    },
+    canon: {
+      pro:   { label:"Canon EOS R5 / R3",            key:"ff_pro",   note:"45MP or 24MP full-frame; IBIS + subject tracking" },
+      mid:   { label:"Canon EOS R6 Mark II",         key:"ff_mid",   note:"40fps full-frame; superb low-light AF performance" },
+      entry: { label:"Canon EOS RP / R8",            key:"ff_entry", note:"Lightweight full-frame entry; strong eye-AF" },
+      apsc_pro:   { label:"Canon EOS R7 / R10",      key:"apsc_pro", note:"32MP APS-C; 1.6× crop; excellent for reach and speed" },
+      apsc_entry: { label:"Canon EOS R50 / M50 II",  key:"apsc_entry",note:"Compact APS-C; ideal beginner mirrorless" },
+    },
+    other: {
+      pro:   { label:"Fujifilm X-T5 / OM-1 Mark II",key:"apsc_pro", note:"X-T5: 40MP APS-C; OM-1: MFT with pro-grade weather sealing" },
+      mid:   { label:"Fujifilm X-S20 / Lumix G9 II",key:"apsc_mid", note:"Excellent colour science; MFT = 2× crop factor" },
+      entry: { label:"Fujifilm X-M5 / Lumix G100",  key:"apsc_entry",note:"Compact crop-sensor bodies; great for travel" },
+      mft:   { label:"Panasonic GH7 / OM-5",        key:"mft",      note:"Micro Four Thirds; 2× crop; outstanding video / weather seal" },
+    }
   },
-  landscape: {
-    bright_sun:  { shutter:"1/250s",  aperture:"f/8",   iso:"100",     focus:"Manual / hyperfocal",       ev:"0" },
-    golden_hour: { shutter:"1/60s",   aperture:"f/8",   iso:"100–200", focus:"Manual / hyperfocal",       ev:"+0.3" },
-    overcast:    { shutter:"1/30s",   aperture:"f/8",   iso:"200",     focus:"Manual / hyperfocal",       ev:"+0.5" },
-    indoors:     { shutter:"1/15s",   aperture:"f/5.6", iso:"400",     focus:"Manual",                    ev:"0" },
-    low_light:   { shutter:"2–10s",   aperture:"f/8",   iso:"200–400", focus:"Manual (live-view magnify)",ev:"+1.0" },
-    night:       { shutter:"15–30s",  aperture:"f/2.8", iso:"1600–3200",focus:"Manual (infinity)",        ev:"0" },
-    tips: [
-      "Use a tripod — long exposures are the landscape photographer's superpower.",
-      "Aperture f/8–f/11 hits the sharpest diffraction-free zone for most lenses.",
-      "Hyperfocal distance focusing ensures sharpness from foreground to infinity.",
-      "Use ND filters to stretch shutter speed for silky water and cloud motion.",
-      "Shoot in RAW — the dynamic range headroom is essential for HDR skies."
-    ]
-  },
-  sports: {
-    bright_sun:  { shutter:"1/2000s", aperture:"f/4",   iso:"400",       focus:"Continuous AF — AI track",  ev:"0" },
-    golden_hour: { shutter:"1/1000s", aperture:"f/2.8", iso:"800",       focus:"Continuous AF — subject",   ev:"+0.3" },
-    overcast:    { shutter:"1/1000s", aperture:"f/2.8", iso:"1600",      focus:"Continuous AF — subject",   ev:"+0.5" },
-    indoors:     { shutter:"1/500s",  aperture:"f/2.8", iso:"3200–6400", focus:"Continuous AF",             ev:"+0.5" },
-    low_light:   { shutter:"1/500s",  aperture:"f/2.0", iso:"6400",      focus:"Continuous AF",             ev:"+1.0" },
-    night:       { shutter:"1/500s",  aperture:"f/1.8", iso:"12800",     focus:"Continuous AF",             ev:"+1.3" },
-    tips: [
-      "Minimum 1/500s (ideally 1/1000s+) freezes fast motion without blur.",
-      "Continuous AF (tracking) follows unpredictable subjects across the frame.",
-      "Burst mode at 10–20fps maximises your chances of catching the peak moment.",
-      "Use a monopod with a telephoto — lighter than a tripod, steadier than handheld.",
-      "High ISO grain is far better than motion blur — don't hesitate to push ISO."
-    ]
-  },
-  macro: {
-    bright_sun:  { shutter:"1/250s",  aperture:"f/11",  iso:"200",  focus:"Manual / focus rail",      ev:"+1.0" },
-    golden_hour: { shutter:"1/125s",  aperture:"f/8",   iso:"400",  focus:"Manual / focus rail",      ev:"+1.3" },
-    overcast:    { shutter:"1/125s",  aperture:"f/8",   iso:"400",  focus:"Manual (live-view)",       ev:"+1.0" },
-    indoors:     { shutter:"1/100s",  aperture:"f/11",  iso:"800",  focus:"Manual / focus stack",     ev:"+1.0" },
-    low_light:   { shutter:"1/60s",   aperture:"f/8",   iso:"1600", focus:"Manual + macro flash",     ev:"+1.3" },
-    night:       { shutter:"1/60s",   aperture:"f/8",   iso:"3200", focus:"Manual + macro ring flash",ev:"+1.5" },
-    tips: [
-      "Depth of field at 1:1 magnification is razor-thin — even f/16 may give only 2–4mm.",
-      "A dedicated macro flash or ring light eliminates diffraction and shake simultaneously.",
-      "Use a focus rail for precise positioning rather than moving the whole camera.",
-      "Focus stacking (multiple shots at different focus planes) achieves deep sharpness.",
-      "Mirror lock-up or electronic shutter eliminates vibration that ruins macro shots."
-    ]
-  },
-  astro: {
-    bright_sun:  { shutter:"—",       aperture:"f/1.8", iso:"6400",      focus:"Manual (infinity)",          ev:"0" },
-    golden_hour: { shutter:"—",       aperture:"f/1.8", iso:"3200",      focus:"Manual (stars)",             ev:"0" },
-    overcast:    { shutter:"—",       aperture:"f/1.4", iso:"6400",      focus:"Manual",                     ev:"0" },
-    indoors:     { shutter:"—",       aperture:"f/1.4", iso:"3200",      focus:"Manual",                     ev:"0" },
-    low_light:   { shutter:"15–25s",  aperture:"f/2.8", iso:"3200",      focus:"Manual (live-view stars)",   ev:"0" },
-    night:       { shutter:"15–25s",  aperture:"f/1.4–2.8",iso:"3200–6400",focus:"Manual (live-view infinity)",ev:"0" },
-    tips: [
-      "The 500 rule: max shutter = 500 ÷ focal length to avoid star trails.",
-      "Widest aperture possible — every stop of light matters under dark skies.",
-      "Shoot RAW and boost shadow detail in post rather than over-exposing.",
-      "Use live-view 10× magnification on a bright star to nail manual infinity focus.",
-      "Dark sky locations (Bortle 3 or lower) transform astro shots dramatically."
-    ]
-  },
-  street: {
-    bright_sun:  { shutter:"1/500s",  aperture:"f/8",   iso:"200",  focus:"Zone / hyperfocal",   ev:"0" },
-    golden_hour: { shutter:"1/250s",  aperture:"f/5.6", iso:"400",  focus:"Zone focus",          ev:"+0.3" },
-    overcast:    { shutter:"1/250s",  aperture:"f/4",   iso:"400",  focus:"Zone / single AF",    ev:"+0.5" },
-    indoors:     { shutter:"1/125s",  aperture:"f/2.8", iso:"1600", focus:"Single AF",           ev:"0" },
-    low_light:   { shutter:"1/60s",   aperture:"f/1.8", iso:"3200", focus:"Single AF",           ev:"+0.7" },
-    night:       { shutter:"1/60s",   aperture:"f/1.4", iso:"6400", focus:"Single AF / zone",   ev:"+1.0" },
-    tips: [
-      "Zone focus (pre-focusing at a set distance) lets you shoot instinctively without lag.",
-      "Sunny-16 rule: 1/ISO shutter at f/16 in bright sun — memorise it for quick decisions.",
-      "Smaller cameras and pancake lenses reduce attention and increase authentic moments.",
-      "Shoot JPEG+RAW for instant review while retaining full post-processing latitude.",
-      "Use continuous drive at 5fps for decisive-moment sequences in busy scenes."
-    ]
-  },
-  wildlife: {
-    bright_sun:  { shutter:"1/2000s", aperture:"f/5.6", iso:"400",       focus:"Continuous AF — animal eye", ev:"0" },
-    golden_hour: { shutter:"1/1000s", aperture:"f/4",   iso:"800",       focus:"Continuous AF — animal eye", ev:"+0.3" },
-    overcast:    { shutter:"1/1000s", aperture:"f/4",   iso:"1600",      focus:"Continuous AF — animal eye", ev:"+0.5" },
-    indoors:     { shutter:"1/500s",  aperture:"f/2.8", iso:"3200",      focus:"Continuous AF",              ev:"+0.5" },
-    low_light:   { shutter:"1/500s",  aperture:"f/2.8", iso:"6400",      focus:"Continuous AF + AI track",   ev:"+1.0" },
-    night:       { shutter:"1/500s",  aperture:"f/2.0", iso:"12800",     focus:"Continuous AF + lamp",       ev:"+1.3" },
-    tips: [
-      "Animal-eye AF is a game changer — enable it as your default AF mode.",
-      "Longer focal lengths (300–600mm) let you keep distance without disturbing wildlife.",
-      "Use auto-ISO with a minimum shutter speed to always freeze subject motion.",
-      "Approach slowly, use natural cover, and wear muted colours to get closer.",
-      "Pre-focus on a likely path (e.g. a gap in reeds) so animals walk into sharp focus."
-    ]
-  },
-  architecture: {
-    bright_sun:  { shutter:"1/250s", aperture:"f/8",  iso:"100",  focus:"Manual / single AF",    ev:"0" },
-    golden_hour: { shutter:"1/60s",  aperture:"f/8",  iso:"200",  focus:"Manual / single AF",    ev:"+0.3" },
-    overcast:    { shutter:"1/30s",  aperture:"f/8",  iso:"200",  focus:"Manual / single AF",    ev:"+0.5" },
-    indoors:     { shutter:"1/15s",  aperture:"f/5.6",iso:"800",  focus:"Manual",                ev:"+0.5" },
-    low_light:   { shutter:"1–5s",   aperture:"f/8",  iso:"400",  focus:"Manual",                ev:"+1.0" },
-    night:       { shutter:"5–30s",  aperture:"f/8",  iso:"200",  focus:"Manual (live-view)",    ev:"0" },
-    tips: [
-      "Tripod + self-timer or remote release eliminates camera shake on long exposures.",
-      "f/8 delivers corner-to-corner sharpness crucial for straight building lines.",
-      "Use a tilt-shift or perspective-correction lens to control converging verticals.",
-      "Shoot at blue hour (just after sunset) for balanced interior and exterior light.",
-      "Level your horizon precisely — even 0.5° of tilt looks jarring on buildings."
-    ]
+  dslr: {
+    sony: {
+      pro:   { label:"Sony A99 II (A-mount)",        key:"ff_pro",   note:"42MP full-frame SLT; Sony's last pro A-mount DSLR" },
+      mid:   { label:"Sony A77 II (APS-C)",          key:"apsc_pro", note:"APS-C SLT; 12fps; discontinued but still capable" },
+      entry: { label:"Sony A68 / A58",               key:"apsc_entry",note:"APS-C SLT entry; good AF for the price" },
+    },
+    nikon: {
+      pro:   { label:"Nikon D6 / D850",             key:"ff_pro",   note:"D6: 20fps pro workhorse; D850: 45MP landscape legend" },
+      mid:   { label:"Nikon D780 / D750",            key:"ff_mid",   note:"Full-frame; D780 bridges DSLR + mirrorless AF tech" },
+      entry: { label:"Nikon D3500 / D5600",          key:"ff_entry", note:"APS-C (DX); superb battery life; beginner-friendly" },
+      apsc_pro:   { label:"Nikon D500",              key:"apsc_pro", note:"20MP APS-C pro; 10fps; king of crop-sensor sports/wildlife" },
+      apsc_entry: { label:"Nikon D3500 / D3400",     key:"apsc_entry",note:"Best entry DSLR image quality; fantastic battery life" },
+    },
+    canon: {
+      pro:   { label:"Canon EOS 1D X Mark III",     key:"ff_pro",   note:"20fps full-frame; the benchmark pro sports DSLR" },
+      mid:   { label:"Canon EOS 5D Mark IV / 6D II",key:"ff_mid",   note:"5D IV: 30MP workhorse; 6D II: lightweight FF" },
+      entry: { label:"Canon EOS 250D / 850D",        key:"ff_entry", note:"APS-C; lightest DSLR; ideal first camera" },
+      apsc_pro:   { label:"Canon EOS 90D / 7D II",   key:"apsc_pro", note:"32MP APS-C; 1.6× crop; excellent reach for sports" },
+      apsc_entry: { label:"Canon EOS 4000D / 2000D", key:"apsc_entry",note:"Ultra affordable APS-C entry; proven image quality" },
+    },
+    other: {
+      pro:   { label:"Pentax K-1 Mark II",          key:"ff_pro",   note:"36MP weather-sealed full-frame; pixel-shift resolution" },
+      mid:   { label:"Pentax K-3 Mark III",         key:"apsc_pro", note:"25MP APS-C; 12fps; built-in GPS + astro tracking" },
+      entry: { label:"Pentax K-70",                 key:"apsc_entry",note:"Weather-sealed APS-C entry; great value" },
+    }
   }
 };
- 
+
+/* Flatten camera options into select for a given type+brand */
+function buildCameraOptions(type, brand) {
+  const group = CAMERAS[type][brand];
+  if (!group) return '<option value="ff_pro">No models listed</option>';
+  let html = '';
+  const labels = { pro:'Pro', mid:'Mid-range', entry:'Entry-level', apsc_pro:'APS-C Pro', apsc_mid:'APS-C Mid', apsc_entry:'APS-C Entry', mft:'Micro Four Thirds' };
+  for (const [tier, cam] of Object.entries(group)) {
+    html += `<option value="${cam.key}" data-note="${cam.note}">${labels[tier] || tier}: ${cam.label}</option>`;
+  }
+  return html;
+}
+
+/* ═══════════════════════════════════════════════
+   SETTINGS DATA
+═══════════════════════════════════════════════ */
+const DATA = {
+  portrait: {
+    bright_sun:  { shutter:"1/500s",  aperture:"f/2.8", iso:"100–200",   focus:"Single AF — eye detect",  ev:"+0.3–0.7" },
+    golden_hour: { shutter:"1/250s",  aperture:"f/2.0", iso:"200–400",   focus:"Single AF — eye detect",  ev:"+0.7" },
+    overcast:    { shutter:"1/250s",  aperture:"f/1.8", iso:"400",       focus:"Single AF — eye detect",  ev:"+0.5" },
+    indoors:     { shutter:"1/125s",  aperture:"f/1.8", iso:"800–1600",  focus:"Single AF — face detect", ev:"0" },
+    low_light:   { shutter:"1/100s",  aperture:"f/1.4", iso:"1600–3200", focus:"Single AF — face detect", ev:"+1.0" },
+    night:       { shutter:"1/60s",   aperture:"f/1.4", iso:"3200–6400", focus:"Manual or AF-assist",     ev:"+1.0" },
+    tips:["Wide aperture (f/1.4–f/2.8) blurs the background and isolates your subject beautifully.","Eye-detection AF locks focus precisely on the catchlights — always enable it.","A shutter speed of ≥ 1/focal-length avoids motion blur from hand shake.","Expose to the right (slightly bright) to retain skin-tone detail in post.","Use a reflector or fill flash outdoors to soften harsh shadows on the face."]
+  },
+  landscape: {
+    bright_sun:  { shutter:"1/250s", aperture:"f/8",   iso:"100",     focus:"Manual / hyperfocal",        ev:"0" },
+    golden_hour: { shutter:"1/60s",  aperture:"f/8",   iso:"100–200", focus:"Manual / hyperfocal",        ev:"+0.3" },
+    overcast:    { shutter:"1/30s",  aperture:"f/8",   iso:"200",     focus:"Manual / hyperfocal",        ev:"+0.5" },
+    indoors:     { shutter:"1/15s",  aperture:"f/5.6", iso:"400",     focus:"Manual",                     ev:"0" },
+    low_light:   { shutter:"2–10s",  aperture:"f/8",   iso:"200–400", focus:"Manual (live-view magnify)", ev:"+1.0" },
+    night:       { shutter:"15–30s", aperture:"f/2.8", iso:"1600–3200",focus:"Manual (infinity)",         ev:"0" },
+    tips:["Use a tripod — long exposures are the landscape photographer's superpower.","Aperture f/8–f/11 hits the sharpest diffraction-free zone for most lenses.","Hyperfocal distance focusing ensures sharpness from foreground to infinity.","Use ND filters to stretch shutter speed for silky water and cloud motion.","Shoot in RAW — the dynamic range headroom is essential for HDR skies."]
+  },
+  sports: {
+    bright_sun:  { shutter:"1/2000s",aperture:"f/4",   iso:"400",       focus:"Continuous AF — AI track", ev:"0" },
+    golden_hour: { shutter:"1/1000s",aperture:"f/2.8", iso:"800",       focus:"Continuous AF — subject",  ev:"+0.3" },
+    overcast:    { shutter:"1/1000s",aperture:"f/2.8", iso:"1600",      focus:"Continuous AF — subject",  ev:"+0.5" },
+    indoors:     { shutter:"1/500s", aperture:"f/2.8", iso:"3200–6400", focus:"Continuous AF",            ev:"+0.5" },
+    low_light:   { shutter:"1/500s", aperture:"f/2.0", iso:"6400",      focus:"Continuous AF",            ev:"+1.0" },
+    night:       { shutter:"1/500s", aperture:"f/1.8", iso:"12800",     focus:"Continuous AF",            ev:"+1.3" },
+    tips:["Minimum 1/500s (ideally 1/1000s+) freezes fast motion without blur.","Continuous AF (tracking) follows unpredictable subjects across the frame.","Burst mode at 10–20fps maximises your chances of catching the peak moment.","Use a monopod with a telephoto — lighter than a tripod, steadier than handheld.","High ISO grain is far better than motion blur — don't hesitate to push ISO."]
+  },
+  macro: {
+    bright_sun:  { shutter:"1/250s", aperture:"f/11", iso:"200",  focus:"Manual / focus rail",       ev:"+1.0" },
+    golden_hour: { shutter:"1/125s", aperture:"f/8",  iso:"400",  focus:"Manual / focus rail",       ev:"+1.3" },
+    overcast:    { shutter:"1/125s", aperture:"f/8",  iso:"400",  focus:"Manual (live-view)",        ev:"+1.0" },
+    indoors:     { shutter:"1/100s", aperture:"f/11", iso:"800",  focus:"Manual / focus stack",      ev:"+1.0" },
+    low_light:   { shutter:"1/60s",  aperture:"f/8",  iso:"1600", focus:"Manual + macro flash",      ev:"+1.3" },
+    night:       { shutter:"1/60s",  aperture:"f/8",  iso:"3200", focus:"Manual + macro ring flash", ev:"+1.5" },
+    tips:["Depth of field at 1:1 magnification is razor-thin — even f/16 may give only 2–4mm.","A dedicated macro flash or ring light eliminates diffraction and shake simultaneously.","Use a focus rail for precise positioning rather than moving the whole camera.","Focus stacking (multiple shots at different focus planes) achieves deep sharpness.","Mirror lock-up or electronic shutter eliminates vibration that ruins macro shots."]
+  },
+  astro: {
+    bright_sun:  { shutter:"—",      aperture:"f/1.8",    iso:"6400",       focus:"Manual (infinity)",           ev:"0" },
+    golden_hour: { shutter:"—",      aperture:"f/1.8",    iso:"3200",       focus:"Manual (stars)",              ev:"0" },
+    overcast:    { shutter:"—",      aperture:"f/1.4",    iso:"6400",       focus:"Manual",                      ev:"0" },
+    indoors:     { shutter:"—",      aperture:"f/1.4",    iso:"3200",       focus:"Manual",                      ev:"0" },
+    low_light:   { shutter:"15–25s", aperture:"f/2.8",    iso:"3200",       focus:"Manual (live-view stars)",    ev:"0" },
+    night:       { shutter:"15–25s", aperture:"f/1.4–2.8",iso:"3200–6400",  focus:"Manual (live-view infinity)", ev:"0" },
+    tips:["The 500 rule: max shutter = 500 ÷ focal length to avoid star trails.","Widest aperture possible — every stop of light matters under dark skies.","Shoot RAW and boost shadow detail in post rather than over-exposing.","Use live-view 10× magnification on a bright star to nail manual infinity focus.","Dark sky locations (Bortle 3 or lower) transform astro shots dramatically."]
+  },
+  street: {
+    bright_sun:  { shutter:"1/500s", aperture:"f/8",   iso:"200",  focus:"Zone / hyperfocal",  ev:"0" },
+    golden_hour: { shutter:"1/250s", aperture:"f/5.6", iso:"400",  focus:"Zone focus",         ev:"+0.3" },
+    overcast:    { shutter:"1/250s", aperture:"f/4",   iso:"400",  focus:"Zone / single AF",   ev:"+0.5" },
+    indoors:     { shutter:"1/125s", aperture:"f/2.8", iso:"1600", focus:"Single AF",          ev:"0" },
+    low_light:   { shutter:"1/60s",  aperture:"f/1.8", iso:"3200", focus:"Single AF",          ev:"+0.7" },
+    night:       { shutter:"1/60s",  aperture:"f/1.4", iso:"6400", focus:"Single AF / zone",  ev:"+1.0" },
+    tips:["Zone focus (pre-focusing at a set distance) lets you shoot instinctively without lag.","Sunny-16 rule: 1/ISO shutter at f/16 in bright sun — memorise it for quick decisions.","Smaller cameras and pancake lenses reduce attention and increase authentic moments.","Shoot JPEG+RAW for instant review while retaining full post-processing latitude.","Use continuous drive at 5fps for decisive-moment sequences in busy scenes."]
+  },
+  wildlife: {
+    bright_sun:  { shutter:"1/2000s",aperture:"f/5.6", iso:"400",       focus:"Continuous AF — animal eye", ev:"0" },
+    golden_hour: { shutter:"1/1000s",aperture:"f/4",   iso:"800",       focus:"Continuous AF — animal eye", ev:"+0.3" },
+    overcast:    { shutter:"1/1000s",aperture:"f/4",   iso:"1600",      focus:"Continuous AF — animal eye", ev:"+0.5" },
+    indoors:     { shutter:"1/500s", aperture:"f/2.8", iso:"3200",      focus:"Continuous AF",              ev:"+0.5" },
+    low_light:   { shutter:"1/500s", aperture:"f/2.8", iso:"6400",      focus:"Continuous AF + AI track",   ev:"+1.0" },
+    night:       { shutter:"1/500s", aperture:"f/2.0", iso:"12800",     focus:"Continuous AF + lamp",       ev:"+1.3" },
+    tips:["Animal-eye AF is a game changer — enable it as your default AF mode.","Longer focal lengths (300–600mm) let you keep distance without disturbing wildlife.","Use auto-ISO with a minimum shutter speed to always freeze subject motion.","Approach slowly, use natural cover, and wear muted colours to get closer.","Pre-focus on a likely path (e.g. a gap in reeds) so animals walk into sharp focus."]
+  },
+  architecture: {
+    bright_sun:  { shutter:"1/250s", aperture:"f/8",  iso:"100", focus:"Manual / single AF",   ev:"0" },
+    golden_hour: { shutter:"1/60s",  aperture:"f/8",  iso:"200", focus:"Manual / single AF",   ev:"+0.3" },
+    overcast:    { shutter:"1/30s",  aperture:"f/8",  iso:"200", focus:"Manual / single AF",   ev:"+0.5" },
+    indoors:     { shutter:"1/15s",  aperture:"f/5.6",iso:"800", focus:"Manual",               ev:"+0.5" },
+    low_light:   { shutter:"1–5s",   aperture:"f/8",  iso:"400", focus:"Manual",               ev:"+1.0" },
+    night:       { shutter:"5–30s",  aperture:"f/8",  iso:"200", focus:"Manual (live-view)",   ev:"0" },
+    tips:["Tripod + self-timer or remote release eliminates camera shake on long exposures.","f/8 delivers corner-to-corner sharpness crucial for straight building lines.","Use a tilt-shift or perspective-correction lens to control converging verticals.","Shoot at blue hour (just after sunset) for balanced interior and exterior light.","Level your horizon precisely — even 0.5° of tilt looks jarring on buildings."]
+  }
+};
+
 const SENSOR_NOTES = {
-  ff_pro:     "Full-frame pro sensor — handles high ISO extremely well, push ISO freely up to 12800+.",
-  ff_mid:     "Full-frame mid-range — excellent ISO performance up to ISO 6400.",
+  ff_pro:     "Full-frame pro sensor — handles high ISO extremely well; push freely to ISO 12800+.",
+  ff_mid:     "Full-frame mid-range — excellent ISO performance; clean up to ISO 6400.",
   ff_entry:   "Full-frame entry — solid up to ISO 3200; diffraction sets in around f/16.",
-  apsc_pro:   "APS-C crop factor 1.5× — add ~1 stop of ISO caution vs. full frame.",
-  apsc_mid:   "APS-C — multiply focal length by 1.5× for effective field of view.",
+  apsc_pro:   "APS-C pro (1.5× crop) — roughly 1 stop noisier than FF; excellent speed and reach.",
+  apsc_mid:   "APS-C mid — multiply focal length by 1.5× for effective field of view.",
   apsc_entry: "APS-C entry — keep ISO ≤ 1600 for best image quality.",
-  mft:        "Micro Four Thirds (2× crop) — effective focal length doubles; restrict to ISO ≤ 3200.",
+  mft:        "Micro Four Thirds (2× crop) — focal length doubles; cap ISO at 3200 for clean results.",
   film:       "Film: match ISO to film speed; box speed is your starting point for metering.",
   phone:      "Smartphone: use Pro/Expert mode for manual control; computational photography helps at night."
 };
- 
+
 const LENS_NOTES = {
-  ultra_wide:     "Ultra-wide suits landscapes and architecture; be aware of edge distortion.",
+  ultra_wide:     "Ultra-wide suits landscapes and architecture; watch for edge distortion.",
   wide:           "Wide angle is versatile — great for environments and environmental portraits.",
   normal:         "Normal lens closest to natural human perspective; ideal walk-around choice.",
-  portrait_prime: "Fast prime with wide max aperture delivers excellent subject separation.",
-  short_tele:     "Short telephoto flatters faces and compresses background naturally.",
+  portrait_prime: "Fast prime delivers beautiful subject separation and smooth bokeh.",
+  short_tele:     "Short telephoto flatters faces and compresses backgrounds naturally.",
   tele:           "Telephoto bridges distance — perfect for wildlife and sports.",
   super_tele:     "Super telephoto reaches far subjects; use a monopod to stabilise.",
   macro_lens:     "True 1:1 macro reproduction — designed for extreme close-up work.",
   zoom:           "Versatile zoom trades max aperture for convenience; watch for diffraction at small f/stops."
 };
- 
-/* ── State ── */
-let selStyle = "portrait";
-let selLight = "bright_sun";
- 
-/* ── Tag interaction ── */
+
+/* Aperture numeric values for comparison */
+const AP_VALUES = [1.0,1.2,1.4,1.8,2.0,2.8,3.5,4.0,5.6,6.3];
+
+function apNum(str) {
+  // extract first numeric aperture from a string like "f/2.8" or "f/1.4–2.8"
+  const m = str.replace('f/','').match(/[\d.]+/);
+  return m ? parseFloat(m[0]) : 99;
+}
+
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+let selStyle  = "portrait";
+let selLight  = "bright_sun";
+let selType   = "mirrorless";
+let selBrand  = "sony";
+let selMaxAp  = 1.4;
+
+/* ═══════════════════════════════════════════════
+   UI HELPERS
+═══════════════════════════════════════════════ */
 function initTags(containerId, dataKey, onChange) {
-  const container = document.getElementById(containerId);
-  container.querySelectorAll(".tag").forEach(tag => {
-    tag.addEventListener("click", () => {
-      container.querySelectorAll(".tag").forEach(t => t.classList.remove("active"));
-      tag.classList.add("active");
-      onChange(tag.dataset[dataKey]);
+  const c = document.getElementById(containerId);
+  c.querySelectorAll(".tag").forEach(t => {
+    t.addEventListener("click", () => {
+      c.querySelectorAll(".tag").forEach(x => x.classList.remove("active"));
+      t.classList.add("active");
+      onChange(t.dataset[dataKey]);
     });
   });
 }
- 
-initTags("styleTags", "style", v => { selStyle = v; render(); });
-initTags("lightTags", "light", v => { selLight = v; render(); });
-document.getElementById("cameraSelect").addEventListener("change", render);
-document.getElementById("lensSelect").addEventListener("change", render);
- 
-/* ── Render ── */
+
+function initToggle(containerId, dataKey, onChange) {
+  const c = document.getElementById(containerId);
+  c.querySelectorAll(".toggle-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      c.querySelectorAll(".toggle-btn").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      onChange(b.dataset[dataKey]);
+    });
+  });
+}
+
+function refreshCameraSelect() {
+  const sel = document.getElementById("cameraSelect");
+  sel.innerHTML = buildCameraOptions(selType, selBrand);
+}
+
+function updateApNote() {
+  const note = document.getElementById("apNote");
+  if (selMaxAp <= 1.4)      note.textContent = "Ultra-fast — exceptional low-light and bokeh capability.";
+  else if (selMaxAp <= 1.8) note.textContent = "Very fast prime — great for portraits and low-light shooting.";
+  else if (selMaxAp <= 2.8) note.textContent = "Fast glass — solid low-light performance, popular zoom standard.";
+  else if (selMaxAp <= 4.0) note.textContent = "Moderate speed — good in daylight; ISO compensation needed in low light.";
+  else                       note.textContent = "Slower lens — rely on IS/IBIS and higher ISO to compensate.";
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════ */
 function render() {
   const d = DATA[selStyle];
   const s = d[selLight];
-  const cam  = document.getElementById("cameraSelect").value;
-  const lens = document.getElementById("lensSelect").value;
-  const isNight   = selLight === "night" || selLight === "low_light";
+  const camSel   = document.getElementById("cameraSelect");
+  const camKey   = camSel.value;
+  const camNote  = camSel.options[camSel.selectedIndex]?.dataset?.note || SENSOR_NOTES[camKey] || "";
+  const lens     = document.getElementById("lensSelect").value;
+  const isNight  = selLight === "night" || selLight === "low_light";
   const isAstroDay = selStyle === "astro" && !["low_light","night"].includes(selLight);
- 
-  let html = "";
- 
-  /* Warning for astro in daylight */
-  if (isAstroDay) {
-    html += `
-      <div class="warn-banner">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-        Astro photography requires darkness. Switch to <strong>Night</strong> or <strong>Low light</strong> for useful results.
-      </div>`;
+
+  /* Aperture adjustment: if lens max aperture is slower than recommended, warn */
+  const recApNum  = apNum(s.aperture);
+  const apTooSlow = selMaxAp > recApNum + 0.01;
+  const displayAp = apTooSlow ? `f/${selMaxAp}` : s.aperture;
+
+  /* ISO adjustment when aperture is limited */
+  let displayIso = s.iso;
+  let isoAdjusted = false;
+  if (apTooSlow) {
+    // rough 1-stop bump per full stop of aperture loss
+    const stopsLost = Math.log2(selMaxAp / recApNum);
+    const isoBase = parseFloat(s.iso.split("–")[0].replace(/[^\d]/g,''));
+    if (!isNaN(isoBase)) {
+      const newIso = Math.round(isoBase * Math.pow(2, stopsLost) / 100) * 100;
+      displayIso = `~${newIso}+`;
+      isoAdjusted = true;
+    }
   }
- 
-  /* Metric cards */
+
+  let html = "";
+
+  if (isAstroDay) {
+    html += `<div class="warn-banner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Astro photography requires darkness. Switch to <strong>Night</strong> or <strong>Low light</strong> for useful results.
+    </div>`;
+  }
+
+  if (apTooSlow) {
+    html += `<div class="info-banner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      Your lens maximum aperture (f/${selMaxAp}) is narrower than the ideal (${s.aperture}) for this scene. Aperture capped at f/${selMaxAp} — ISO has been adjusted upward to compensate.
+    </div>`;
+  }
+
   html += `
     <div class="card">
       <div class="section-label">Recommended settings</div>
       <div class="metric-grid">
         <div class="metric">
           <div class="metric-icon icon-shutter">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="9"/>
-              <polyline points="12 7 12 12 15 15"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
           </div>
           <div class="metric-label">Shutter speed</div>
           <div class="metric-val">${s.shutter}</div>
@@ -743,34 +866,24 @@ function render() {
         </div>
         <div class="metric">
           <div class="metric-icon icon-aperture">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="9"/>
-              <line x1="12" y1="3" x2="12" y2="7"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-              <line x1="3" y1="12" x2="7" y2="12"/>
-              <line x1="17" y1="12" x2="21" y2="12"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/></svg>
           </div>
           <div class="metric-label">Aperture</div>
-          <div class="metric-val">${s.aperture}</div>
+          <div class="metric-val ${apTooSlow ? 'adjusted' : ''}">${displayAp}</div>
+          ${apTooSlow ? `<div class="metric-sub">Ideal: ${s.aperture}</div>` : ""}
         </div>
         <div class="metric">
           <div class="metric-icon icon-iso">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
           </div>
           <div class="metric-label">ISO</div>
-          <div class="metric-val">${s.iso}</div>
-          ${isNight ? `<div class="metric-sub">${cam === "ff_pro" ? "Push to 12800 if needed" : "Watch for noise"}</div>` : ""}
+          <div class="metric-val ${isoAdjusted ? 'adjusted' : ''}">${displayIso}</div>
+          ${isNight && !isoAdjusted ? `<div class="metric-sub">${camKey === "ff_pro" ? "Push to 12800 if needed" : "Watch for noise"}</div>` : ""}
+          ${isoAdjusted ? '<div class="metric-sub">Boosted for slow lens</div>' : ""}
         </div>
         <div class="metric">
           <div class="metric-icon icon-focus">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
           </div>
           <div class="metric-label">Focus mode</div>
           <div class="metric-val" style="font-size:14px;line-height:1.35;padding-top:2px">${s.focus}</div>
@@ -779,25 +892,29 @@ function render() {
       <div class="pills">
         <span class="pill highlight">EV comp: ${s.ev}</span>
         <span class="pill">Shoot RAW</span>
-        ${isNight ? '<span class="pill">Tripod recommended</span>' : ""}
+        <span class="pill info">${selType === "mirrorless" ? "Mirrorless" : "DSLR"}</span>
+        ${isNight ? '<span class="pill warn">Tripod recommended</span>' : ""}
         ${selStyle === "sports" || selStyle === "wildlife" ? '<span class="pill">Burst mode on</span>' : ""}
+        ${apTooSlow ? `<span class="pill warn">Lens limits aperture</span>` : ""}
       </div>
     </div>`;
- 
+
   /* Gear notes */
+  const sensorText = SENSOR_NOTES[camKey] || "—";
+  const typeFeature = selType === "mirrorless"
+    ? "EVF enables real-time exposure preview; IBIS common on modern bodies."
+    : "Optical viewfinder; longer battery life; large native lens ecosystem.";
+
   html += `
     <div class="card">
       <div class="section-label">Gear notes</div>
-      <div class="gear-row">
-        <span class="gear-label">Camera</span>
-        <span>${SENSOR_NOTES[cam]}</span>
-      </div>
-      <div class="gear-row">
-        <span class="gear-label">Lens</span>
-        <span>${LENS_NOTES[lens]}</span>
-      </div>
+      <div class="gear-row"><span class="gear-label">Body</span><span>${camNote || sensorText}</span></div>
+      <div class="gear-row"><span class="gear-label">Sensor</span><span>${sensorText}</span></div>
+      <div class="gear-row"><span class="gear-label">Type</span><span>${typeFeature}</span></div>
+      <div class="gear-row"><span class="gear-label">Lens</span><span>${LENS_NOTES[lens]}</span></div>
+      <div class="gear-row"><span class="gear-label">Max ap.</span><span>f/${selMaxAp} — ${selMaxAp <= 2.8 ? "fast glass, good light-gathering" : selMaxAp <= 4.0 ? "moderate speed; works well in good light" : "slower lens; compensate with higher ISO or longer shutter"}</span></div>
     </div>`;
- 
+
   /* Tips */
   html += `
     <div class="card">
@@ -806,14 +923,50 @@ function render() {
         ${d.tips.map(t => `<li>${t}</li>`).join("")}
       </ul>
     </div>`;
- 
-  const out = document.getElementById("output");
-  out.innerHTML = html;
+
+  document.getElementById("output").innerHTML = html;
 }
- 
+
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
- 
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+initTags("styleTags", "style", v => { selStyle = v; render(); });
+initTags("lightTags", "light", v => { selLight = v; render(); });
+
+initToggle("typeToggle", "type", v => {
+  selType = v;
+  refreshCameraSelect();
+  render();
+});
+
+initToggle("brandToggle", "brand", v => {
+  selBrand = v;
+  refreshCameraSelect();
+  render();
+});
+
+document.getElementById("cameraSelect").addEventListener("change", render);
+document.getElementById("lensSelect").addEventListener("change", render);
+
+/* Aperture buttons */
+document.getElementById("apTrack").querySelectorAll(".ap-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.getElementById("apTrack").querySelectorAll(".ap-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selMaxAp = parseFloat(btn.dataset.ap);
+    updateApNote();
+    render();
+  });
+});
+
+/* Initial population */
+refreshCameraSelect();
+updateApNote();
 render();
 </script>
 </body>
 </html>
+ENDOFFILE
+echo "Done"
